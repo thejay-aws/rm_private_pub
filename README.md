@@ -4,6 +4,9 @@ Private Pub is a Ruby gem for use with Rails to publish and subscribe to message
 
 Watch [RailsCasts Episode 316](http://railscasts.com/episodes/316-private-pub) for a demonstration of Private Pub.
 
+This fork is customed for redmine's chat plugin.
+
+Thank ryanband(the author of private_pub) and Vizakenjack. 
 
 ## Setup
 
@@ -26,6 +29,10 @@ Next, start up Faye using the rackup file that was generated.
 rackup private_pub.ru -s thin -E production
 ```
 
+or sometime need bundle exec and add some info
+```
+bundle exec rackup -w private_pub.ru -s thin -E production
+```
 **In Rails 3.1** add the JavaScript file to your application.js file manifest.
 
 ```javascript

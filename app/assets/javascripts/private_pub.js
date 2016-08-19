@@ -39,6 +39,8 @@ function buildPrivatePub(doc) {
           if (!message.ext) message.ext = {};
           message.ext.private_pub_signature = subscription.signature;
           message.ext.private_pub_timestamp = subscription.timestamp;
+          message.ext.user_id = subscription.user_id;
+          message.ext.project_id = subscription.project_id;
         }
         callback(message);
       }

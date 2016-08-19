@@ -3,7 +3,11 @@ require "net/http"
 require "net/https"
 
 require "private_pub/faye_extension"
-require "private_pub/engine" if defined? Rails
+if defined? Rails
+ require "private_pub/engine" 
+else
+ require File.expand_path('../config/environment.rb', __FILE__)
+end
 
 module PrivatePub
   class Error < StandardError; end
@@ -57,7 +61,9 @@ module PrivatePub
     # Any options passed are merged to the hash.
     def subscription(options = {})
       sub = {:server => config[:server], :timestamp => (Time.now.to_f * 1000).round}.merge(options)
-      sub[:signature] = Digest::SHA1.hexdigest([config[:secret_token], sub[:channel], sub[:timestamp]].join)
+      sub[:user_id] ||= 0
+      sub[:project_id] ||= 0
+      sub[:signature] = Digest::SHA1.hexdigest([config[:secret_token], sub[:channel], sub[:user_id], sub[:project_id], sub[:timestamp]].join)
       sub
     end
 

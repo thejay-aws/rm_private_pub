@@ -7,6 +7,12 @@ module PrivatePub
     def incoming(message, callback)
       if message["channel"] == "/meta/subscribe"
         authenticate_subscribe(message)
+        uid = message['ext']['user_id']
+        pid = message['ext']['project_id']
+        cid = message['ext']['clientId']
+        if uid && pid && cid && uid != 0 && pid != 0
+           update_online_status(uid, pid, cid)
+        end
       elsif message["channel"] !~ %r{^/meta/}
         authenticate_publish(message)
       end
@@ -17,8 +23,9 @@ module PrivatePub
 
     # Ensure the subscription signature is correct and that it has not expired.
     def authenticate_subscribe(message)
-      subscription = PrivatePub.subscription(:channel => message["subscription"], :timestamp => message["ext"]["private_pub_timestamp"])
+      subscription = PrivatePub.subscription(:channel => message["subscription"], :timestamp => message["ext"]["private_pub_timestamp"], :user_id => message["ext"]["user_id"] )
       if message["ext"]["private_pub_signature"] != subscription[:signature]
+        p "ERROR: user #{message["ext"]["user_id"]} have incorrect signature"
         message["error"] = "Incorrect signature."
       elsif PrivatePub.signature_expired? message["ext"]["private_pub_timestamp"].to_i
         message["error"] = "Signature has expired."
@@ -34,6 +41,11 @@ module PrivatePub
       else
         message["ext"]["private_pub_token"] = nil
       end
+    end
+    
+    def update_online_status(uid, pid, cid)
+      p "Class query: #{uid},#{pid},#{cid},"
+      p "Class query: #{ChatUser.superclass}"
     end
   end
 end
