@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = "rm_private_pub"
+  s.name        = "private_pub"
   s.version     = "1.0.3.1"
   s.author      = "Author:Ryan Bates. Customized by:Tigergm Wu"
   s.email       = "39648421@qq.com"
