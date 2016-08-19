@@ -1,11 +1,11 @@
 Gem::Specification.new do |s|
-  s.name        = "private_pub"
-  s.version     = "1.0.3"
-  s.author      = "Ryan Bates"
-  s.email       = "ryan@railscasts.com"
-  s.homepage    = "http://github.com/ryanb/private_pub"
-  s.summary     = "Private pub/sub messaging in Rails."
-  s.description = "Private pub/sub messaging in Rails through Faye."
+  s.name        = "rm_private_pub"
+  s.version     = "1.0.3.1"
+  s.author      = "Author:Ryan Bates. Customized by:Tigergm Wu"
+  s.email       = "39648421@qq.com"
+  s.homepage    = "http://github.com/tigergm/rm_private_pub"
+  s.summary     = "Private pub/sub messaging in Rails. Customed for readmine_chat plugin"
+  s.description = "Private pub/sub messaging in Rails through Faye. Customed for readmine_chat plugin"
 
   s.files        = Dir["{app,lib,spec}/**/*", "[A-Z]*", "init.rb"] - ["Gemfile.lock"]
   s.require_path = "lib"

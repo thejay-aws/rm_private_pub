@@ -3,8 +3,15 @@ require "bundler/setup"
 require "yaml"
 require "faye"
 require "private_pub"
+require 'active_record'
+require 'sqlite3'
+#require 'mysql'
 
 Faye::WebSocket.load_adapter('thin')
 
-PrivatePub.load_config(File.expand_path("../config/private_pub.yml", __FILE__), ENV["RAILS_ENV"] || "development")
+environment = ENV['RACK_ENV'] || "development"
+dbconfig = YAML.load(File.read('./config/database.yml'))
+ActiveRecord::Base.establish_connection(dbconfig[environment])
+
+PrivatePub.load_config(File.expand_path("../config/private_pub.yml", __FILE__), environment)
 run PrivatePub.faye_app

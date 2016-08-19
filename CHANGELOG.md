@@ -1,3 +1,7 @@
+## 1.0.3.1 (August 20, 2016)
+
+* added user_id and project_id transfer and let it to fit redmine_chat plugin
+
 ## 1.0.3 (August 20, 2012)
 
 * fixed Faye startup error (thanks gitt) - issue #40

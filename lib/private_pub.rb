@@ -3,12 +3,8 @@ require "net/http"
 require "net/https"
 
 require "private_pub/faye_extension"
-if defined? Rails
- require "private_pub/engine" 
-else
- require File.expand_path('../config/environment.rb', __FILE__)
-end
-
+require "private_pub/engine" if defined? Rails
+ 
 module PrivatePub
   class Error < StandardError; end
 

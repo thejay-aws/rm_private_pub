@@ -5,6 +5,8 @@ module PrivatePub
     # Callback to handle incoming Faye messages. This authenticates both
     # subscribe and publish calls.
     def incoming(message, callback)
+      p "uid message for subscription = #{message.inspect}"
+      p "Class query: #{ChatUser.superclass}"
       if message["channel"] == "/meta/subscribe"
         authenticate_subscribe(message)
         uid = message['ext']['user_id']
