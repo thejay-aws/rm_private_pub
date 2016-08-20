@@ -7,6 +7,9 @@ require 'active_record'
 require 'sqlite3'
 #require 'mysql'
 
+#need require the ChatUser model
+require './plugins/redmine_chat/app/model/ChatUser.rb'
+
 Faye::WebSocket.load_adapter('thin')
 
 environment = ENV['RACK_ENV'] || "development"

@@ -5,15 +5,21 @@ module PrivatePub
     # Callback to handle incoming Faye messages. This authenticates both
     # subscribe and publish calls.
     def incoming(message, callback)
-      p "uid message for subscription = #{message.inspect}"
-      p "Class query: #{ChatUser.superclass}"
+      # process the disconnect condistion
+      if message["channel"] == "/meta/disconnect"
+        cid = message['clientId']
+        if cid
+           offline_status(cid)
+        end
+      end
       if message["channel"] == "/meta/subscribe"
         authenticate_subscribe(message)
         uid = message['ext']['user_id']
         pid = message['ext']['project_id']
-        cid = message['ext']['clientId']
+        cid = message['clientId']
+        
         if uid && pid && cid && uid != 0 && pid != 0
-           update_online_status(uid, pid, cid)
+          update_online_status(uid, pid, cid)
         end
       elsif message["channel"] !~ %r{^/meta/}
         authenticate_publish(message)
@@ -45,9 +51,18 @@ module PrivatePub
       end
     end
     
+    def offline_status(cid)
+      chat_user = ChatUser.find_by :client_id => cid
+      if chat_user
+        chat_user.destroy
+      end
+    end
+    
     def update_online_status(uid, pid, cid)
-      p "Class query: #{uid},#{pid},#{cid},"
-      p "Class query: #{ChatUser.superclass}"
+      chat_user = ChatUser.find_by :client_id => cid
+      if chat_user.nil?
+        chat_user = ChatUser.create(:client_id => cid, :user_id => uid, :project_id => pid )
+      end
     end
   end
 end

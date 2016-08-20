@@ -29,9 +29,10 @@ Next, start up Faye using the rackup file that was generated.
 rackup private_pub.ru -s thin -E production
 ```
 
-or sometime need bundle exec and add some info
+or sometime need bundle exec. If want to see more info, add -w param
 ```
 bundle exec rackup -w private_pub.ru -s thin -E production
+
 ```
 **In Rails 3.1** add the JavaScript file to your application.js file manifest.
 
