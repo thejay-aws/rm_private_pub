@@ -5,10 +5,10 @@ require "faye"
 require "private_pub"
 require 'active_record'
 require 'sqlite3'
-#require 'mysql'
+#require 'mysql2'
 
 #need require the ChatUser model
-require './plugins/redmine_chat/app/model/ChatUser.rb'
+require './plugins/redmine_chat/app/model/chat_user.rb'
 
 Faye::WebSocket.load_adapter('thin')
 
