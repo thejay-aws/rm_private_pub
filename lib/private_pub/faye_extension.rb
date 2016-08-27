@@ -17,7 +17,6 @@ module PrivatePub
         uid = message['ext']['user_id']
         pid = message['ext']['project_id']
         cid = message['clientId']
-        
         if uid && pid && cid && uid != 0 && pid != 0
           update_online_status(uid, pid, cid)
         end
@@ -53,15 +52,24 @@ module PrivatePub
     
     def offline_status(cid)
       chat_user = ChatUser.find_by :client_id => cid
-      if chat_user
-        chat_user.destroy
+      if !chat_user.blank?
+        uid = chat_user.user_id
+        pid = chat_user.project_id
+        chat_users = ChatUser.where :project_id => pid, :user_id => uid
+        if !chat_users.blank?
+          chat_users.destroy_all
+        end
       end
     end
     
     def update_online_status(uid, pid, cid)
-      chat_user = ChatUser.find_by :client_id => cid
-      if chat_user.nil?
-        chat_user = ChatUser.create(:client_id => cid, :user_id => uid, :project_id => pid )
+      chat_users = ChatUser.where :project_id => pid, :user_id => uid
+      if chat_users.blank?
+        ChatUser.create(:client_id => cid, :user_id => uid, :project_id => pid )
+      else
+        chat_users.each do |chat_user|
+          chat_user.update_attribute(:client_id, cid)
+        end
       end
     end
   end
