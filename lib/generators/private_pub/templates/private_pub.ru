@@ -8,7 +8,7 @@ require 'sqlite3'
 #require 'mysql2'
 
 #need require the ChatUser model
-require './plugins/redmine_chat/app/models/chat_user.rb'
+require './plugins/redmine_chat/app/models/chat_user.rb' if File.exists?( './plugins/redmine_chat/app/models/chat_user.rb')
 
 Faye::WebSocket.load_adapter('thin')
 
