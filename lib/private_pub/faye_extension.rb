@@ -51,7 +51,9 @@ module PrivatePub
     end
     
     def offline_status(cid)
-      Object.const_get(:ChatUser).is_a?(Class) rescue false
+      if !(Object.const_get(:ChatUser).is_a?(Class) rescue false)
+        return
+      end
       chat_user = ChatUser.find_by :client_id => cid
       if !chat_user.blank?
         uid = chat_user.user_id
@@ -64,7 +66,9 @@ module PrivatePub
     end
     
     def update_online_status(uid, pid, cid)
-      Object.const_get(:ChatUser).is_a?(Class) rescue false
+      if !(Object.const_get(:ChatUser).is_a?(Class) rescue false)
+        return
+      end
       chat_users = ChatUser.where :project_id => pid, :user_id => uid
       if chat_users.blank?
         ChatUser.create(:client_id => cid, :user_id => uid, :project_id => pid )
